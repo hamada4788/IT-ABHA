@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدخال اسم الموظف</title>
+</head>
+<body>
+
+    <h2>إدخال اسم الموظف</h2>
+    
+    <!-- نموذج الإدخال -->
+    <form id="nameForm">
+        <label for="employeeName">اسم الموظف:</label>
+        <input type="text" id="employeeName" name="name" required>
+        <button type="submit">حفظ</button>
+    </form>
+
+    <!-- عنصر Canvas لعرض الصورة والنص -->
+    <canvas id="canvas" width="600" height="400" style="display: none;"></canvas>
+
+    <script>
+        // استماع لحدث إرسال النموذج
+        document.getElementById('nameForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // منع الإرسال الفوري للنموذج
+
+            const employeeName = document.getElementById('employeeName').value;
+
+            // إخفاء النموذج بعد حفظ الاسم
+            document.getElementById('nameForm').style.display = 'none';
+
+            // تحميل الصورة
+            const image = new Image();
+            image.src = 'https://files.catbox.moe/zq58ou.png';
+            
+            image.onload = function() {
+                // إعداد Canvas
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+
+                // رسم الصورة على Canvas
+                ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                // إعداد الخط
+                ctx.font = '30px Arial';
+                ctx.fillStyle = '#003366'; // اللون الأزرق الداكن
+
+                // حساب عرض النص لتمكين توسيطه
+                const textWidth = ctx.measureText(employeeName).width;
+                const xPosition = (canvas.width - textWidth) / 2; // حساب مكان النص أفقياً
+                const yPosition = canvas.height / 2 + 15; // حساب مكان النص عمودياً (نصف الارتفاع + تعديل ليتوسط النص بشكل أفضل)
+
+                // إضافة النص (اسم الموظف) فوق الصورة
+                ctx.fillText(employeeName, xPosition, yPosition); // عرض الاسم في المنتصف
+
+                // إظهار Canvas بعد تحميل الصورة
+                canvas.style.display = 'block';
+            };
+        });
+    </script>
+
+</body>
+</html>
